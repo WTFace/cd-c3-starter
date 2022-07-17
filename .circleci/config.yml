@@ -102,7 +102,7 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: aws/cli
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
