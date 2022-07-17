@@ -11,6 +11,7 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
             aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+            aws s3 rb s3://udapeople-"${CIRCLE_WORKFLOW_ID}" --force
 
 jobs:
   build-frontend:
@@ -160,6 +161,11 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - run: 
+          name: install awscli
+          command: |
+            apt-get install python python-pip
+            pip install awscli
       - run:
           name: Run migrations
           command: |
