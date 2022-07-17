@@ -11,7 +11,7 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
             aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
-            aws s3 rb s3://udapeople-"${CIRCLE_WORKFLOW_ID}" --force
+            aws s3 rb s3://udapeople-"${CIRCLE_WORKFLOW_ID:0:7}" --force
 
 jobs:
   build-frontend:
@@ -21,6 +21,12 @@ jobs:
       - checkout
       - restore_cache:
           keys: [frontend-build]
+      - run: 
+          name: install awscli
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run:
           name: Build front-end
           command: |
@@ -30,6 +36,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
+      - destroy-environment
   build-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -46,7 +53,7 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-
+  
   test-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -156,6 +163,7 @@ jobs:
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
+
   run-migrations:
     docker:
       - image: circleci/node:13.8.0
@@ -164,8 +172,9 @@ jobs:
       - run: 
           name: install awscli
           command: |
-            apt-get install python python-pip
-            pip install awscli
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run:
           name: Run migrations
           command: |
