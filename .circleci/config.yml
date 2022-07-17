@@ -205,9 +205,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND_IP = $(aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=backend")
+            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=backend")
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
@@ -234,7 +232,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update tar gzip ansible nodejs npm
-
+            apk add --no-cache aws-cli
       - run:
           name: Deploy backend
           command: |
