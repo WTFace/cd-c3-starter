@@ -1,9 +1,15 @@
 ---
-- name: install packages
-  become: yes
-  shell: npm install
+- name: copy
+  become: true
+  copy:
+    src:  ~/project/artifact.tar.gz
+    dest: /root/artifact.tar.gz 
 
-- name: Executing node
+- name: start server
+  become: true
   shell: |
-    pm2 stop default
+    cd /root
+    tar xzf artifact.tar.gz 
+    npm install
+    npm run build
     pm2 start npm -- start
