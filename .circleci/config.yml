@@ -130,7 +130,7 @@ jobs:
               --output text >> .circleci/ansible/inventory.txt
       - run: yum install -y tar gzip
       - persist_to_workspace:
-          root: ~/
+          root: ./
           paths:
             - .circleci/ansible/inventory.txt
       - destroy-environment
@@ -143,7 +143,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["be:d8:ba:b7:45:85:09:ea:1c:7b:46:08:6a:ac:c0:84"]
       - attach_workspace:
-          at: ~/
+          at: ./
       - run:
           name: Install dependencies
           command: |
@@ -153,9 +153,26 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
-      # Here's where you will add some code to rollback on failure
       - destroy-environment
-
+  run-migrations:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: Run migrations
+          command: |
+            cd backend
+            npm install
+            npm run migrations > migrations_dump.txt
+      - run:
+          name: Send migration results to memstash
+          command: |
+            if grep -q "has been executed successfully." backend/migrations_dump.txt
+            then
+              curl https://kvdb.io/WUeWzkQchD9mGRfkTyua2o/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+            fi
+      - destroy-environment
 workflows:
   default:
     jobs:
