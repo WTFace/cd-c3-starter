@@ -304,8 +304,8 @@ jobs:
       - revert-migrations
 
   cloudfront-update:
-    docker:
-      - docker: amazon/aws-cli
+    docker: 
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
@@ -345,6 +345,8 @@ jobs:
             then
               aws s3 rm "s3://${OldWorkflowID}" --recursive
               aws s3 rb "s3://${OldWorkflowID}" --force
+              aws cloudformation delete-stack --stack-name udapeople-frontend-${OldWorkflowID}
+              aws cloudformation delete-stack --stack-name udapeople-backend-${OldWorkflowID}
             fi
 
 workflows:
