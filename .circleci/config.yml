@@ -10,7 +10,7 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
-            aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+            # aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
             aws s3 rb s3://udapeople-"${CIRCLE_WORKFLOW_ID:0:7}" --force
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -161,15 +161,15 @@ jobs:
     docker:
       # Docker image here that supports Ansible
       - image: python:3.11-rc-alpine
-        environment:
-          TYPEORM_CONNECTION: $TYPEORM_CONNECTION
-          TYPEORM_ENTITIES: $TYPEORM_ENTITIES
-          TYPEORM_HOST: $TYPEORM_HOST
-          TYPEORM_DATABASE: $TYPEORM_DATABASE
-          TYPEORM_USERNAME: $TYPEORM_USERNAME
-          TYPEORM_PASSWORD: $TYPEORM_PASSWORD
-          TYPEORM_MIGRATIONS: $TYPEORM_MIGRATIONS
-          TYPEORM_MIGRATIONS_DIR: $TYPEORM_MIGRATIONS_DIR
+    environment:
+      TYPEORM_CONNECTION: $TYPEORM_CONNECTION
+      TYPEORM_ENTITIES: $TYPEORM_ENTITIES
+      TYPEORM_HOST: $TYPEORM_HOST
+      TYPEORM_DATABASE: $TYPEORM_DATABASE
+      TYPEORM_USERNAME: $TYPEORM_USERNAME
+      TYPEORM_PASSWORD: $TYPEORM_PASSWORD
+      TYPEORM_MIGRATIONS: $TYPEORM_MIGRATIONS
+      TYPEORM_MIGRATIONS_DIR: $TYPEORM_MIGRATIONS_DIR
     steps:
       - checkout
       - add_ssh_keys:
