@@ -3,7 +3,7 @@
   become: true
   copy:
     src:  ~/project/artifact.tar.gz
-    dest: /root/artifact.tar.gz 
+    dest: /home/ubuntu/artifact.tar.gz 
 
 - name: start server
   become: true
