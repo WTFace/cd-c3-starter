@@ -14,11 +14,10 @@ commands:
             aws s3 rb s3://udapeople-"${CIRCLE_WORKFLOW_ID:0:7}" --force
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
-    # parameters:
     steps:
       - run:
           name: Revert migrations
-          # Add when this will run
+          when: on_fail
           command: |
             kvBucket=$(curl -d 'email=chrispigglet@gmail.com' https://kvdb.io)
 
