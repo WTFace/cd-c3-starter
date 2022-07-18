@@ -3,12 +3,11 @@
   # become: true
   copy:
     src:  ~/project/artifact.tar.gz
-    dest: /home/ubuntu/artifact.tar.gz 
+    dest: /root/artifact.tar.gz 
 
 - name: start server
   # become: true
   shell: |
-    # cd /root
     tar xzf artifact.tar.gz 
     npm install
     npm run build
