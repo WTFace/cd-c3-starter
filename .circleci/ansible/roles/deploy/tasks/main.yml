@@ -1,12 +1,12 @@
 ---
 - name: copy
-  # become: true
+  become: true
   copy:
     src:  ~/project/artifact.tar.gz
     dest: /root/artifact.tar.gz 
 
 - name: start server
-  # become: true
+  become: true
   shell: |
     tar xzf artifact.tar.gz 
     npm install
