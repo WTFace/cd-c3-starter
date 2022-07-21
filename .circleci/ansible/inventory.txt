@@ -1,2 +1,3 @@
 [web]
 35.171.168.143
+ec2-35-170-203-102.compute-1.amazonaws.com
