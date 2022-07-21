@@ -18,4 +18,3 @@
   raw: sudo systemctl daemon-reload
   raw: sudo systemctl enable node-exporter
   raw: sudo systemctl start node-exporter
-  raw: sudo systemctl status node-exporter
