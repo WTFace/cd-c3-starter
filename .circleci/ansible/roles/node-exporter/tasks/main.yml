@@ -1,6 +1,6 @@
 ---
-- name: add user
-  raw: sudo useradd --no-create-home node_exporter
+# - name: add user
+#   raw: sudo useradd --no-create-home node_exporter
 
 - name: install
   become: true
