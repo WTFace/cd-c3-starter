@@ -367,6 +367,7 @@ jobs:
               aws s3 rb "s3://${OldWorkflowID}" --force
               aws cloudformation delete-stack --stack-name frontend-${OldWorkflowID}
               aws cloudformation delete-stack --stack-name backend-${OldWorkflowID}
+              echo '-------------- deleted -------------'
             fi
 
 workflows:
