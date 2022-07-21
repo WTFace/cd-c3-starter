@@ -417,6 +417,6 @@ workflows:
   #         requires: [smoke-test]
   #     - cleanup:
   #         requires: [cloudfront-update]
-  prometheus:
-    jobs:
-      - node-exporter
+  # prometheus:
+  #   jobs:
+  #     - node-exporter
