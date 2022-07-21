@@ -3,9 +3,10 @@
   raw: sudo useradd --no-create-home node_exporter
 
 - name: install
+  become: true
   raw: wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
   raw: tar xzf node_exporter-1.0.1.linux-amd64.tar.gz
-  raw: sudo cp node_exporter-1.0.1.linux-amd64/node_exporter /usr/local/bin/node_exporter
+  raw: cp node_exporter-1.0.1.linux-amd64/node_exporter /usr/local/bin/node_exporter
   raw: rm -rf node_exporter-1.0.1.linux-amd64.tar.gz node_exporter-1.0.1.linux-amd64
 
 - name: copy service file
